@@ -11,6 +11,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
+    String kcal = MealManagerActivity.GetKcal();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setAdapter(adapter);
 
-        data.add("금일 현재까지 먹은 칼로리 수치는" + 500 + "kcal 입니다.");
+        data.add("금일 현재까지 먹은 칼로리 수치는" + kcal + "kcal 입니다.");
         data.add("현재 부위별 운동 빈도");
         data.add("체중");
         data.add("지방");

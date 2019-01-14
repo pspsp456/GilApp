@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="당신은 운동 @일 차입니다." />
+        android:text="@string/MainText" />
 
     <ListView
         android:id="@+id/ExerciseList"
