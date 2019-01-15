@@ -43,4 +43,9 @@ public class MealManagerActivity extends AppCompatActivity {
         MealManagerActivity.this.startActivity(mainIntent);
     }
 
+    public void youtubeOnClick(View v)
+    {
+        Intent mainIntent = new Intent(MealManagerActivity.this, YouTubeActivity.class);
+        MealManagerActivity.this.startActivity(mainIntent);
+    }
 }
