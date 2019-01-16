@@ -22,16 +22,15 @@ public class MealManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_manager);
 
-        kcalText = (EditText)findViewById(R.id.foodKcal);
-        kgText = (EditText)findViewById(R.id.kgTextID);
-        fatText = (EditText)findViewById(R.id.fatTextID);
-        muscleText = (EditText)findViewById(R.id.muscleTextID);
+        kcalText = (EditText) findViewById(R.id.foodKcal);
+        kgText = (EditText) findViewById(R.id.kgTextID);
+        fatText = (EditText) findViewById(R.id.fatTextID);
+        muscleText = (EditText) findViewById(R.id.muscleTextID);
 
-        kcalButton = (Button)findViewById(R.id.kcalButton);
+        kcalButton = (Button) findViewById(R.id.kcalButton);
     }
 
-    public void kcalOnClick(View v)
-    {
+    public void kcalOnClick(View v) {
         Intent mainIntent = new Intent(MealManagerActivity.this, MainActivity.class);
 
         Log.d(kcalText.getText().toString(), "값이 어떻게 나오니?");
@@ -43,9 +42,14 @@ public class MealManagerActivity extends AppCompatActivity {
         MealManagerActivity.this.startActivity(mainIntent);
     }
 
-    public void youtubeOnClick(View v)
-    {
+    public void youtubeOnClick(View v) {
         Intent mainIntent = new Intent(MealManagerActivity.this, YouTubeActivity.class);
+        MealManagerActivity.this.startActivity(mainIntent);
+    }
+
+    public void mealReportOnClick(View v)
+    {
+        Intent mainIntent = new Intent(MealManagerActivity.this, MealReportActivity.class);
         MealManagerActivity.this.startActivity(mainIntent);
     }
 }
