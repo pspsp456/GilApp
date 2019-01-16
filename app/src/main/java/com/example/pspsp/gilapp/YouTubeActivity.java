@@ -11,10 +11,11 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayer.PlaybackEventListener;
 import com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeListener;
 import com.google.android.youtube.player.YouTubePlayer.Provider;
+import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
 
 
-public class YouTubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
+public class YouTubeActivity extends YouTubeBaseActivity  {
     public static final String API_KEY = "AIzaSyA3otgcXV2Dexd0XplEF4h9pnoRw2QUqRo";//사용자가 얻은 API Key을 입력하면 된다.(개발자 콘솔에 얻은 것.)
 
     //http://youtu.be/<VIDEO_ID>
@@ -25,30 +26,30 @@ public class YouTubeActivity extends YouTubeBaseActivity implements YouTubePlaye
         super.onCreate(savedInstanceState);
         /** attaching layout xml **/
         setContentView(R.layout.activity_you_tube);
-        /** Initializing YouTube player view **/
-        YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_player);
-        youTubePlayerView.initialize(API_KEY, this);
-    }
-    @Override
-    public void onInitializationFailure(Provider provider, YouTubeInitializationResult result) {
-        if (result.isUserRecoverableError()) {
-            result.getErrorDialog(this, RQS_ErrorDialog).show();
-        } else {
-            Toast.makeText(this,
-                    "YouTubePlayer.onInitializationFailure(): " + result.toString(),
-                    Toast.LENGTH_LONG).show();
+        //Initializing and adding YouTubePlayerFragment
+        FragmentManager fm = getFragmentManager();
+        String tag = YouTubePlayerFragment.class.getSimpleName();
+        YouTubePlayerFragment playerFragment = (YouTubePlayerFragment) fm.findFragmentByTag(tag);
+        if (playerFragment == null) {
+            FragmentTransaction ft = fm.beginTransaction();
+            playerFragment = YouTubePlayerFragment.newInstance();
+            ft.add(android.R.id.content, playerFragment, tag);
+            ft.commit();
         }
+
+        playerFragment.initialize(API_KEY, new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                youTubePlayer.cueVideo(VIDEO_ID);
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                Toast.makeText(YouTubeActivity.this, "Error while initializing YouTubePlayer.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-    @Override
-    public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
-        /** add listeners to YouTubePlayer instance **/
-        player.setPlayerStateChangeListener(playerStateChangeListener);
-        player.setPlaybackEventListener(playbackEventListener);
-        /** Start buffering **/
-        if (!wasRestored) {
-            player.cueVideo(VIDEO_ID);
-        }
-    }
+
     private PlaybackEventListener playbackEventListener = new PlaybackEventListener() {
         @Override
         public void onBuffering(boolean arg0) {
